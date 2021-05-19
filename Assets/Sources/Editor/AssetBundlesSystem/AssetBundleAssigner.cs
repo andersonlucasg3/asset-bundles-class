@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AssetBundlesClass.AssetBundlesSystem
+namespace AssetBundlesClass.Editor.AssetBundlesSystem
 {
     public static class AssetBundleAssigner
     {
@@ -8,7 +8,7 @@ namespace AssetBundlesClass.AssetBundlesSystem
         {
             if (!selectedObject) return;
 
-            AssetBundleInfo info = new AssetBundleInfo(selectedObject, bundleName);
+            AssetBundleInfo info = new AssetBundleInfo(selectedObject, bundleName, shared);
             AssignBundle(info);
         }
 

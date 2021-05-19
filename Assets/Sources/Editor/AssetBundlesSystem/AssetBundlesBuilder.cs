@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace AssetBundlesClass.AssetBundlesSystem
+namespace AssetBundlesClass.Editor.AssetBundlesSystem
 {
     public static class AssetBundlesBuilder
     {

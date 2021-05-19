@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace AssetBundlesClass.AssetBundlesSystem
+namespace AssetBundlesClass.Editor.AssetBundlesSystem
 {
     class AssetBundleInfo
     {
@@ -11,7 +11,7 @@ namespace AssetBundlesClass.AssetBundlesSystem
         public readonly string assetBundleName;
         public readonly AssetImporter importer;
 
-        public AssetBundleInfo(Object selectedObject, string bundleName, bool isShared = false)
+        public AssetBundleInfo(Object selectedObject, string bundleName, bool isShared)
         {
             path = AssetDatabase.GetAssetPath(selectedObject);
             importer = AssetImporter.GetAtPath(path);

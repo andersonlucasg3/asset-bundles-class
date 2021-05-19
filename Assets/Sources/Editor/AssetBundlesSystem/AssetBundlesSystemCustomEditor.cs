@@ -2,10 +2,10 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace AssetBundlesClass.AssetBundlesSystem
+namespace AssetBundlesClass.Editor.AssetBundlesSystem
 {
     [CustomEditor(typeof(DefaultAsset))]
-    public class AssetBundlesSystemCustomEditor : Editor
+    public class AssetBundlesSystemCustomEditor : UnityEditor.Editor
     {
         private const float _labelsWidth = 140F;
         private const float _defaultSpacing = 30F;
