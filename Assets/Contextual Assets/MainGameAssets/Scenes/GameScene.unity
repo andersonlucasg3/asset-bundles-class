@@ -503,6 +503,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _distanceFromTarget: {x: 0, y: 3, z: -6}
+  _cameraVerticalLock:
+    min: -20
+    max: 60
 --- !u!1 &1499804921
 GameObject:
   m_ObjectHideFlags: 0

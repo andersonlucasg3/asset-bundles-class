@@ -8,10 +8,7 @@ namespace AssetBundlesClass.Game.Vehicles.Wheel
     {
         [SerializeField] private WheelController[] _wheels = default;
 
-        public WheelCollection(WheelController[] wheels)
-        {
-            _wheels = wheels;
-        }
+        public WheelCollection(WheelController[] wheels) => _wheels = wheels;
 
         public void Update(float acceleration, float steering = 0)
         {

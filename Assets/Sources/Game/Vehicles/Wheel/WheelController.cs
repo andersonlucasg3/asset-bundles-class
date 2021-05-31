@@ -8,11 +8,16 @@ namespace AssetBundlesClass.Game.Vehicles.Wheel
     {
         [SerializeField] private Transform _transform = default;
         [SerializeField] private WheelCollider _wheelCollider = default;
+        [SerializeField] private Rigidbody _attachedRigidbody = default;
 
+        private float _currentSpeed = default;
+        private bool _isInReverse = false;
+        
         public WheelController(Transform transform)
         {
             _wheelCollider = transform.GetComponent<WheelCollider>();
             _transform = transform.GetChild(0);
+            _attachedRigidbody = _wheelCollider.attachedRigidbody;
         }
 
         public void Update()
@@ -21,21 +26,42 @@ namespace AssetBundlesClass.Game.Vehicles.Wheel
 
             _transform.position = position;
             _transform.rotation = rotation;
+
+            _currentSpeed = _attachedRigidbody.velocity.magnitude * 3.6F; // m/s to km/h
         }
 
         public void Accelerate(float acceleration)
         {
-            if (acceleration >= 0) _wheelCollider.motorTorque = acceleration;
-            else
-            {
-                _wheelCollider.motorTorque = 0F;
-                _wheelCollider.brakeTorque = acceleration;
-            }
+            if (_currentSpeed < 0.001F) _isInReverse = acceleration < 0F;
+
+            _wheelCollider.motorTorque = GetMotorTorque(acceleration);
+            _wheelCollider.brakeTorque = GetBrakeTorque(acceleration);
         }
 
-        public void Steer(float steeringAngle)
+        public void Steer(float steeringAngle) => _wheelCollider.steerAngle = steeringAngle;
+
+        private float GetMotorTorque(float acceleration)
         {
-            _wheelCollider.steerAngle = steeringAngle;
+            return _isInReverse switch
+            {
+                false when acceleration > 0F => acceleration,
+                false when acceleration < 0F => 0F,
+                true when acceleration < 0F => acceleration,
+                true when acceleration > 0F => 0F,
+                _ => 0F
+            };
+        }
+
+        private float GetBrakeTorque(float acceleration)
+        {
+            return _isInReverse switch
+            {
+                false when acceleration > 0F => 0F,
+                false when acceleration < 0F => -acceleration,
+                true when acceleration < 0F => 0F,
+                true when acceleration > 0F => acceleration,
+                _ => acceleration
+            };
         }
     }
 }

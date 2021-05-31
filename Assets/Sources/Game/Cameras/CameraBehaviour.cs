@@ -1,3 +1,4 @@
+using Sources.Shared.Models;
 using UnityEngine;
 
 namespace AssetBundlesClass.Game.Cameras
@@ -8,6 +9,7 @@ namespace AssetBundlesClass.Game.Cameras
         public static CameraBehaviour shared { get; private set; } = default;
 
         [SerializeField] private Vector3 _distanceFromTarget = new Vector3(0F, 1F, -1F);
+        [SerializeField] private MinMax _cameraVerticalLock = new MinMax(-90F, 90F);
 
         private CameraInput _input = default;
         private Transform _transform = default;
@@ -44,14 +46,14 @@ namespace AssetBundlesClass.Game.Cameras
             Quaternion targetRotation = target.rotation;
             Quaternion cameraRotation = Quaternion.Euler(_cameraRotation);
 
-            _transform.position = targetPosition + (targetRotation * cameraRotation) * _distanceFromTarget;
+            _transform.position = targetPosition + targetRotation * cameraRotation * _distanceFromTarget;
             _transform.LookAt(targetPosition);
         }
 
         #region ICameraInputListener
 
         void ICameraInputListener.MouseHorizontalUpdate(float x) => _cameraRotation.y += x;
-        void ICameraInputListener.MouseVerticalUpdate(float y) => _cameraRotation.x += y;
+        void ICameraInputListener.MouseVerticalUpdate(float y) => _cameraRotation.x = _cameraVerticalLock.Lock(_cameraRotation.x - y);
 
         #endregion
     }

@@ -215,7 +215,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4679320392462739168}
   - component: {fileID: 4857883976011412931}
-  - component: {fileID: 7407988504500038123}
   - component: {fileID: 1089661772948782436}
   m_Layer: 0
   m_Name: Van
@@ -255,19 +254,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &7407988504500038123
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2170714417149959725}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.9012618, y: 1.7284791, z: 5.286167}
-  m_Center: {x: 0.007152915, y: 1.1396707, z: -0.123304844}
 --- !u!114 &1089661772948782436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,18 +270,21 @@ MonoBehaviour:
     _wheels:
     - _transform: {fileID: 5627887139598172922}
       _wheelCollider: {fileID: 3965924339020197449}
+      _attachedRigidbody: {fileID: 4857883976011412931}
     - _transform: {fileID: 3735345082467251079}
       _wheelCollider: {fileID: 1680664690310046038}
+      _attachedRigidbody: {fileID: 4857883976011412931}
   _rearWheels:
     _wheels:
     - _transform: {fileID: 7763888571573179772}
       _wheelCollider: {fileID: 7815310907662937358}
+      _attachedRigidbody: {fileID: 4857883976011412931}
     - _transform: {fileID: 4585812530946938276}
       _wheelCollider: {fileID: 9003785009812402778}
+      _attachedRigidbody: {fileID: 4857883976011412931}
   _traction: 0
   _maxSteeringAngle: 30
   _engineTorque: 250
-  _torqueDirection: 0
 --- !u!1 &2731986283176305568
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,6 +296,7 @@ GameObject:
   - component: {fileID: 3360291841617885466}
   - component: {fileID: 1805376330733844159}
   - component: {fileID: 4533167131245216373}
+  - component: {fileID: 4559016438396904308}
   m_Layer: 0
   m_Name: VanMesh
   m_TagString: Untagged
@@ -383,6 +373,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4559016438396904308
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2731986283176305568}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4972357449096699917, guid: fbd9bd102e7a449daa6b6f8e91641dfd, type: 3}
 --- !u!1 &2775176601911941167
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,13 +617,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5855806395797571693}
-  m_LocalRotation: {x: -0.0000006556509, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3519196681330922900}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!33 &3464110701245280987
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -775,13 +779,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8235831575758876186}
-  m_LocalRotation: {x: -0.0000006556509, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3776147534403879537}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!33 &9221883754940050161
 MeshFilter:
   m_ObjectHideFlags: 0
