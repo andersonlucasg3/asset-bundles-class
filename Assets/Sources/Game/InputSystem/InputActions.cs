@@ -72,7 +72,7 @@ namespace AssetBundlesClass.Game.InputSystem
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""AccelerateBreak"",
+                    ""name"": ""AccelerateBrake"",
                     ""id"": ""fffd81dd-b930-41ff-9157-171839d947e5"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
@@ -105,6 +105,52 @@ namespace AssetBundlesClass.Game.InputSystem
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Camera"",
+            ""id"": ""a3e24b04-96fa-46f2-a7ee-1d1b75504085"",
+            ""actions"": [
+                {
+                    ""name"": ""Vertical"",
+                    ""type"": ""Value"",
+                    ""id"": ""808eae27-ecc1-40ed-bdab-461064bfa282"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Horizontal"",
+                    ""type"": ""Value"",
+                    ""id"": ""65d2d086-12cd-43df-97a3-a32b8fcea7c9"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""84923daf-6412-4a77-8619-c5ed38e124cc"",
+                    ""path"": ""<Mouse>/delta/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""Vertical"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""604f9245-e85f-4053-b481-11902c8caa86"",
+                    ""path"": ""<Mouse>/delta/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""Horizontal"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -130,6 +176,10 @@ namespace AssetBundlesClass.Game.InputSystem
             m_Car = asset.FindActionMap("Car", throwIfNotFound: true);
             m_Car_Steering = m_Car.FindAction("Steering", throwIfNotFound: true);
             m_Car_Acceleration = m_Car.FindAction("Acceleration", throwIfNotFound: true);
+            // Camera
+            m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
+            m_Camera_Vertical = m_Camera.FindAction("Vertical", throwIfNotFound: true);
+            m_Camera_Horizontal = m_Camera.FindAction("Horizontal", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -216,6 +266,47 @@ namespace AssetBundlesClass.Game.InputSystem
             }
         }
         public CarActions @Car => new CarActions(this);
+
+        // Camera
+        private readonly InputActionMap m_Camera;
+        private ICameraActions m_CameraActionsCallbackInterface;
+        private readonly InputAction m_Camera_Vertical;
+        private readonly InputAction m_Camera_Horizontal;
+        public struct CameraActions
+        {
+            private @InputActions m_Wrapper;
+            public CameraActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Vertical => m_Wrapper.m_Camera_Vertical;
+            public InputAction @Horizontal => m_Wrapper.m_Camera_Horizontal;
+            public InputActionMap Get() { return m_Wrapper.m_Camera; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(CameraActions set) { return set.Get(); }
+            public void SetCallbacks(ICameraActions instance)
+            {
+                if (m_Wrapper.m_CameraActionsCallbackInterface != null)
+                {
+                    @Vertical.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnVertical;
+                    @Vertical.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnVertical;
+                    @Vertical.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnVertical;
+                    @Horizontal.started -= m_Wrapper.m_CameraActionsCallbackInterface.OnHorizontal;
+                    @Horizontal.performed -= m_Wrapper.m_CameraActionsCallbackInterface.OnHorizontal;
+                    @Horizontal.canceled -= m_Wrapper.m_CameraActionsCallbackInterface.OnHorizontal;
+                }
+                m_Wrapper.m_CameraActionsCallbackInterface = instance;
+                if (instance != null)
+                {
+                    @Vertical.started += instance.OnVertical;
+                    @Vertical.performed += instance.OnVertical;
+                    @Vertical.canceled += instance.OnVertical;
+                    @Horizontal.started += instance.OnHorizontal;
+                    @Horizontal.performed += instance.OnHorizontal;
+                    @Horizontal.canceled += instance.OnHorizontal;
+                }
+            }
+        }
+        public CameraActions @Camera => new CameraActions(this);
         private int m_PCSchemeIndex = -1;
         public InputControlScheme PCScheme
         {
@@ -229,6 +320,11 @@ namespace AssetBundlesClass.Game.InputSystem
         {
             void OnSteering(InputAction.CallbackContext context);
             void OnAcceleration(InputAction.CallbackContext context);
+        }
+        public interface ICameraActions
+        {
+            void OnVertical(InputAction.CallbackContext context);
+            void OnHorizontal(InputAction.CallbackContext context);
         }
     }
 }

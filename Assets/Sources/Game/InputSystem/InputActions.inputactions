@@ -57,7 +57,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "AccelerateBreak",
+                    "name": "AccelerateBrake",
                     "id": "fffd81dd-b930-41ff-9157-171839d947e5",
                     "path": "1DAxis",
                     "interactions": "",
@@ -88,6 +88,52 @@
                     "action": "Acceleration",
                     "isComposite": false,
                     "isPartOfComposite": true
+                }
+            ]
+        },
+        {
+            "name": "Camera",
+            "id": "a3e24b04-96fa-46f2-a7ee-1d1b75504085",
+            "actions": [
+                {
+                    "name": "Vertical",
+                    "type": "Value",
+                    "id": "808eae27-ecc1-40ed-bdab-461064bfa282",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Horizontal",
+                    "type": "Value",
+                    "id": "65d2d086-12cd-43df-97a3-a32b8fcea7c9",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "84923daf-6412-4a77-8619-c5ed38e124cc",
+                    "path": "<Mouse>/delta/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "Vertical",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "604f9245-e85f-4053-b481-11902c8caa86",
+                    "path": "<Mouse>/delta/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "Horizontal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

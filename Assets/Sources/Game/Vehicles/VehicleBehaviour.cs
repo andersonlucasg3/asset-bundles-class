@@ -1,4 +1,5 @@
-﻿using AssetBundlesClass.Game.InputSystem;
+﻿using AssetBundlesClass.Game.Cameras;
+using AssetBundlesClass.Game.Vehicles.Input;
 using AssetBundlesClass.Game.Vehicles.Wheel;
 using UnityEngine;
 
@@ -11,57 +12,64 @@ namespace AssetBundlesClass.Game.Vehicles
         [SerializeField] private VehicleTraction _traction = default;
         [SerializeField] private float _maxSteeringAngle = default;
         [SerializeField] private float _engineTorque = default;
-        [SerializeField] private TorqueDirection _torqueDirection = default;
 
         private Transform _transform = default;
-        private Rigidbody _rigidbody = default;
         private CarInput _input = default;
 
         private float _currentAcceleration = default;
         private float _currentSteering = default;
 
+#if UNITY_EDITOR
+        public WheelCollection frontWheels { set => _frontWheels = value; }
+        public WheelCollection rearWheels { set => _rearWheels = value; }
+#endif
+
         private void Awake()
         {
             _transform = transform;
-            _rigidbody = GetComponent<Rigidbody>();
 
             _input = new CarInput();
             _input.AddListener(this);
         }
 
-        private void Start() => _input.EnableInputs();
+        private void OnEnable()
+        {
+            CameraBehaviour.shared.target = _transform;
 
-        private void OnDisable() => _input.DisableInputs();
+            _input.EnableInputs();
+        }
+
+        private void OnDisable()
+        {
+            CameraBehaviour.shared.target = null;
+
+            _input.DisableInputs();
+        }
 
         private void OnDestroy() => _input.RemoveListener(this);
 
         private void Update()
         {
-            float deltaTime = Time.deltaTime;
             float acceleration = _currentAcceleration;
             float steering = _currentSteering;
 
-            _rigidbody.AddTorque(_torqueDirection.ToDirection() * _engineTorque * _currentAcceleration * deltaTime, ForceMode.Force);
-
+            float finalAcceleration = acceleration * _engineTorque;
+            float finalSteering = steering * _maxSteeringAngle;
             switch (_traction)
             {
                 case VehicleTraction.front:
-                    _frontWheels.Accelerate(acceleration);
-                    // breaking
-                    if (acceleration < 0) _rearWheels.Accelerate(acceleration);
+                    _frontWheels.Update(finalAcceleration, finalSteering);
+                    _rearWheels.Update(0F);
                     break;
                 case VehicleTraction.rear:
-                    _rearWheels.Accelerate(acceleration);
-                    // breaking
-                    if (acceleration < 0) _frontWheels.Accelerate(acceleration);
+                    _frontWheels.Update(0F, finalSteering);
+                    _rearWheels.Update(finalAcceleration);
                     break;
                 case VehicleTraction.all:
-                    _frontWheels.Accelerate(acceleration);
-                    _rearWheels.Accelerate(acceleration);
+                    _frontWheels.Update(finalAcceleration, finalSteering);
+                    _rearWheels.Update(finalAcceleration);
                     break;
             }
-
-            _frontWheels.Steer(steering * _maxSteeringAngle);
         }
 
         #region ICarInputListener

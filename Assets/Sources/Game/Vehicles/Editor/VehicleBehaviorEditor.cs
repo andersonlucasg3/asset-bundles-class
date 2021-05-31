@@ -27,11 +27,8 @@ namespace AssetBundlesClass.Editor.Vehicles
             Transform[] frontWheels = wheels.Filter(each => each.name.Contains("-F-"));
             Transform[] rearWheels = wheels.Filter(each => each.name.Contains("-R-"));
 
-            WheelCollection frontWheelCollection = new WheelCollection(frontWheels.Map(each => new WheelController(each)));
-            WheelCollection rearWheelCollection = new WheelCollection(rearWheels.Map(each => new WheelController(each)));
-
-            serializedObject.FindProperty("_frontWheels").managedReferenceValue = frontWheelCollection;
-            serializedObject.FindProperty("_rearWheels").managedReferenceValue = rearWheelCollection;
+            vehicle.frontWheels = new WheelCollection(frontWheels.Map(each => new WheelController(each)));
+            vehicle.rearWheels = new WheelCollection(rearWheels.Map(each => new WheelController(each)));
 
             EditorUtility.SetDirty(vehicle);
         }

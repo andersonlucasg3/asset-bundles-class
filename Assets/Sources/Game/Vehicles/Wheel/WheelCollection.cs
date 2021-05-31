@@ -13,14 +13,15 @@ namespace AssetBundlesClass.Game.Vehicles.Wheel
             _wheels = wheels;
         }
 
-        public void Accelerate(float acceleration)
+        public void Update(float acceleration, float steering = 0)
         {
-
-        }
-
-        public void Steer(float steering)
-        {
-
+            for (int index = 0; index < _wheels.Length; index++)
+            {
+                WheelController wheel = _wheels[index];
+                wheel.Accelerate(acceleration);
+                wheel.Steer(steering);
+                wheel.Update();
+            }
         }
     }
 }
