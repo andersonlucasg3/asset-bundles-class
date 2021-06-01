@@ -643,6 +643,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1089661772948782436, guid: e3ecf72e24dc34251bbecafdf8d4359f, type: 3}
+      propertyPath: _rearWheels._wheels.Array.data[0]._correction
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1089661772948782436, guid: e3ecf72e24dc34251bbecafdf8d4359f, type: 3}
+      propertyPath: _rearWheels._wheels.Array.data[1]._correction
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1089661772948782436, guid: e3ecf72e24dc34251bbecafdf8d4359f, type: 3}
+      propertyPath: _frontWheels._wheels.Array.data[0]._correction
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1089661772948782436, guid: e3ecf72e24dc34251bbecafdf8d4359f, type: 3}
+      propertyPath: _frontWheels._wheels.Array.data[1]._correction
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1089661772948782436, guid: e3ecf72e24dc34251bbecafdf8d4359f, type: 3}
+      propertyPath: _rearWheels._wheels.Array.data[0]._attachedRigidbody
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1089661772948782436, guid: e3ecf72e24dc34251bbecafdf8d4359f, type: 3}
+      propertyPath: _rearWheels._wheels.Array.data[1]._attachedRigidbody
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1089661772948782436, guid: e3ecf72e24dc34251bbecafdf8d4359f, type: 3}
+      propertyPath: _frontWheels._wheels.Array.data[0]._attachedRigidbody
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1089661772948782436, guid: e3ecf72e24dc34251bbecafdf8d4359f, type: 3}
+      propertyPath: _frontWheels._wheels.Array.data[1]._attachedRigidbody
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2170714417149959725, guid: e3ecf72e24dc34251bbecafdf8d4359f, type: 3}
       propertyPath: m_Name
       value: Van

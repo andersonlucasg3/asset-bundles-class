@@ -271,17 +271,21 @@ MonoBehaviour:
     - _transform: {fileID: 5627887139598172922}
       _wheelCollider: {fileID: 3965924339020197449}
       _attachedRigidbody: {fileID: 4857883976011412931}
+      _correction: 0
     - _transform: {fileID: 3735345082467251079}
       _wheelCollider: {fileID: 1680664690310046038}
       _attachedRigidbody: {fileID: 4857883976011412931}
+      _correction: 0
   _rearWheels:
     _wheels:
     - _transform: {fileID: 7763888571573179772}
       _wheelCollider: {fileID: 7815310907662937358}
       _attachedRigidbody: {fileID: 4857883976011412931}
+      _correction: 0
     - _transform: {fileID: 4585812530946938276}
       _wheelCollider: {fileID: 9003785009812402778}
       _attachedRigidbody: {fileID: 4857883976011412931}
+      _correction: 0
   _traction: 0
   _maxSteeringAngle: 30
   _engineTorque: 250
