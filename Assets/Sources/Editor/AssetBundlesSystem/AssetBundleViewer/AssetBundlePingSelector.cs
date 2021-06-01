@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -9,11 +10,12 @@ namespace AssetBundlesClass.Editor.AssetBundlesSystem.AssetBundleViewer
     {
         private static readonly string[] _emptyArray = Array.Empty<string>();
         
+        private Vector2 _scrollPosition = default;
         private int _lastSelectedIndex = -1;
         private int _selectedIndex = default;
         private string[] _pathsToDisplay = default;
         private BundleInfo _bundleInfo = default;
-        
+
         public void ReloadData(BundleInfo bundleInfo)
         {
             _bundleInfo = bundleInfo;
@@ -37,14 +39,18 @@ namespace AssetBundlesClass.Editor.AssetBundlesSystem.AssetBundleViewer
                 EditorStyles.boldLabel.fontSize = size;
             }
             EditorGUILayout.EndHorizontal();
-            
+
             EditorGUILayout.Separator();
 
-            for (int index = 0; index < _pathsToDisplay.Length; index++)
+            _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
             {
-                if (EditorGUILayout.ToggleLeft(_pathsToDisplay[index], _selectedIndex == index)) 
-                    _selectedIndex = index;
+                for (int index = 0; index < _pathsToDisplay.Length; index++)
+                {
+                    if (EditorGUILayout.ToggleLeft(_pathsToDisplay[index], _selectedIndex == index))
+                        _selectedIndex = index;
+                }
             }
+            EditorGUILayout.EndScrollView();
 
             PingSelectedIndex();
         }
