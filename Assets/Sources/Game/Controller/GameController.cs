@@ -1,4 +1,6 @@
+using AssetBundlesClass.Game.InputSystem;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Sources.Game.Controller
 {
@@ -6,7 +8,9 @@ namespace Sources.Game.Controller
     {
         private static GameController _shared = default;
 
-        private PlayableCar _playableCar = default;
+        private InputActions _inputActions = default;
+
+        public PlayableCar playableCar { get; private set; }
         
         public static GameController shared
         {
@@ -18,11 +22,19 @@ namespace Sources.Game.Controller
             }
         }
         
-        public static void SetCar(PlayableCar car) => shared._playableCar = car;
+        public static void SetCar(PlayableCar car) => shared.playableCar = car;
+        
+        public void MoveToScene(Scene scene) => SceneManager.MoveGameObjectToScene(gameObject, scene);
+
+        public void EnableMenuInput() => _inputActions.Menu.Enable();
 
         private void Awake()
         {
             if (_shared) DestroyImmediate(gameObject);
+            
+            _inputActions = new InputActions();
+            _inputActions.Menu.Disable();
+            _inputActions.Menu.MenuButton.performed += _ => SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
         }
 
         private void OnDestroy()

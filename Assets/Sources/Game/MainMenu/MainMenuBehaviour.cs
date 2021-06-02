@@ -77,6 +77,8 @@ namespace AssetBundlesClass.Game.MainMenu
             Scene gameScene = SceneManager.GetSceneByName("GameScene");
             SceneManager.SetActiveScene(gameScene);
 
+            GameController.shared.MoveToScene(gameScene);
+
             SceneManager.UnloadSceneAsync(gameObject.scene);
         }
     }

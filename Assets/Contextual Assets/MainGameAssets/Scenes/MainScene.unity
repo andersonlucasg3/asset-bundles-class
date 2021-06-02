@@ -341,7 +341,6 @@ GameObject:
   m_Component:
   - component: {fileID: 538182830}
   - component: {fileID: 538182832}
-  - component: {fileID: 538182831}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -363,14 +362,6 @@ Transform:
   m_Father: {fileID: 803879569}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 20.956, y: -150, z: 0}
---- !u!81 &538182831
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 538182829}
-  m_Enabled: 1
 --- !u!20 &538182832
 Camera:
   m_ObjectHideFlags: 0
@@ -566,7 +557,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1184015596}
   - component: {fileID: 1184015595}
-  - component: {fileID: 1184015594}
   - component: {fileID: 1184015597}
   m_Layer: 0
   m_Name: Main Camera
@@ -575,14 +565,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1184015594
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1184015593}
-  m_Enabled: 1
 --- !u!20 &1184015595
 Camera:
   m_ObjectHideFlags: 0
@@ -657,7 +639,6 @@ MonoBehaviour:
   _carNameLabel: {fileID: 2032983513}
   _renderRootTransform: {fileID: 803879569}
   _currentRenderedCarGameObject: {fileID: 0}
-  _renderCamera: {fileID: 538182832}
   _availableCars: {fileID: 11400000, guid: 3f2333d9af67b4f4e8a2272981259c5a, type: 2}
 --- !u!1 &1237450462
 GameObject:

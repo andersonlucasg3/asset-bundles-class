@@ -151,6 +151,33 @@ namespace AssetBundlesClass.Game.InputSystem
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Menu"",
+            ""id"": ""1cc7f939-cd4e-4fd4-a734-adc10c85d4e1"",
+            ""actions"": [
+                {
+                    ""name"": ""MenuButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""ce13290f-6079-4312-965e-d8d8b5d16ff9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""bb909678-bb84-4a82-8c71-fce17f8629ff"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""MenuButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -180,6 +207,9 @@ namespace AssetBundlesClass.Game.InputSystem
             m_Camera = asset.FindActionMap("Camera", throwIfNotFound: true);
             m_Camera_Vertical = m_Camera.FindAction("Vertical", throwIfNotFound: true);
             m_Camera_Horizontal = m_Camera.FindAction("Horizontal", throwIfNotFound: true);
+            // Menu
+            m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
+            m_Menu_MenuButton = m_Menu.FindAction("MenuButton", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -307,6 +337,39 @@ namespace AssetBundlesClass.Game.InputSystem
             }
         }
         public CameraActions @Camera => new CameraActions(this);
+
+        // Menu
+        private readonly InputActionMap m_Menu;
+        private IMenuActions m_MenuActionsCallbackInterface;
+        private readonly InputAction m_Menu_MenuButton;
+        public struct MenuActions
+        {
+            private @InputActions m_Wrapper;
+            public MenuActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+            public InputAction @MenuButton => m_Wrapper.m_Menu_MenuButton;
+            public InputActionMap Get() { return m_Wrapper.m_Menu; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(MenuActions set) { return set.Get(); }
+            public void SetCallbacks(IMenuActions instance)
+            {
+                if (m_Wrapper.m_MenuActionsCallbackInterface != null)
+                {
+                    @MenuButton.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnMenuButton;
+                    @MenuButton.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnMenuButton;
+                    @MenuButton.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnMenuButton;
+                }
+                m_Wrapper.m_MenuActionsCallbackInterface = instance;
+                if (instance != null)
+                {
+                    @MenuButton.started += instance.OnMenuButton;
+                    @MenuButton.performed += instance.OnMenuButton;
+                    @MenuButton.canceled += instance.OnMenuButton;
+                }
+            }
+        }
+        public MenuActions @Menu => new MenuActions(this);
         private int m_PCSchemeIndex = -1;
         public InputControlScheme PCScheme
         {
@@ -325,6 +388,10 @@ namespace AssetBundlesClass.Game.InputSystem
         {
             void OnVertical(InputAction.CallbackContext context);
             void OnHorizontal(InputAction.CallbackContext context);
+        }
+        public interface IMenuActions
+        {
+            void OnMenuButton(InputAction.CallbackContext context);
         }
     }
 }
