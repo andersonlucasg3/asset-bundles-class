@@ -32,8 +32,8 @@ namespace AssetBundlesClass.Editor.AssetBundlesSystem
             if (!Directory.Exists(platformSpecificOutputPath)) Directory.CreateDirectory(platformSpecificOutputPath);
             
             Debug.Log($"Building AssetBundles for {target} platform with output path: {platformSpecificOutputPath}");
-
-            BuildPipeline.BuildAssetBundles(platformSpecificOutputPath, BuildAssetBundleOptions.None, target);
+            
+            BuildPipeline.BuildAssetBundles(platformSpecificOutputPath, BuildAssetBundleOptions.ChunkBasedCompression, target);
 
             Debug.Log($"If nothing goes wrong, the asset bundles were built at path: {platformSpecificOutputPath}");
         }
