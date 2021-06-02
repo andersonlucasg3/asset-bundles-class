@@ -15,10 +15,8 @@ namespace AssetBundlesClass.Game.MainMenu
 
         [SerializeField] private Transform _renderRootTransform = default;
         [SerializeField] private GameObject _currentRenderedCarGameObject = default;
-        [SerializeField] private Camera _renderCamera = default;
         [SerializeField] private AvailableCars _availableCars = default;
-
-        private readonly Rect _spriteRect = new Rect(0F, 0F, 300F, 300F);
+        
         private int _selectedCarIndex = default;
 
         private void Awake()
