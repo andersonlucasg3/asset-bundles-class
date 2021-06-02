@@ -6,7 +6,7 @@ namespace AssetBundlesClass.Editor.AssetBundlesSystem
 {
     public static class AssetBundlesBuilder
     {
-        private static readonly string _assetBundlesOutputPath = Path.Combine(Directory.GetParent(Application.dataPath)?.ToString() ?? string.Empty, "AssetBundles");
+        public static readonly string assetBundlesOutputPath = Path.Combine(Directory.GetParent(Application.dataPath)?.ToString() ?? string.Empty, "AssetBundles");
         
         [MenuItem("AssetBundlesClass/Asset Bundles/Build All Bundles (Active Platform Only)")]
         public static void AssetBundlesBuildActivePlatformMenuAction()
@@ -22,12 +22,12 @@ namespace AssetBundlesClass.Editor.AssetBundlesSystem
             BuildAssetBundles(BuildTarget.iOS);
             BuildAssetBundles(BuildTarget.Android);
 
-            Debug.Log($"The bundles should be at: {_assetBundlesOutputPath}");
+            Debug.Log($"The bundles should be at: {assetBundlesOutputPath}");
         }
         
         private static void BuildAssetBundles(BuildTarget target)
         {
-            string platformSpecificOutputPath = Path.Combine(_assetBundlesOutputPath, $"{target}");
+            string platformSpecificOutputPath = Path.Combine(assetBundlesOutputPath, $"{target}");
             
             if (!Directory.Exists(platformSpecificOutputPath)) Directory.CreateDirectory(platformSpecificOutputPath);
             
