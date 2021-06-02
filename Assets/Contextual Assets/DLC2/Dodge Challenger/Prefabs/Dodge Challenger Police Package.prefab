@@ -910,7 +910,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7467212988732530282}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0469aa6ef673349c897b0933608d7382, type: 3}
   m_Name: 
@@ -920,17 +920,21 @@ MonoBehaviour:
     - _transform: {fileID: 5561938418206816682}
       _wheelCollider: {fileID: 1923884720572945211}
       _attachedRigidbody: {fileID: 6004135811825040621}
+      _correction: 0
     - _transform: {fileID: 4746887524417709942}
       _wheelCollider: {fileID: 5009945713998330802}
       _attachedRigidbody: {fileID: 6004135811825040621}
+      _correction: 0
   _rearWheels:
     _wheels:
     - _transform: {fileID: 7363753697382819079}
       _wheelCollider: {fileID: 2935610715576404403}
       _attachedRigidbody: {fileID: 6004135811825040621}
+      _correction: 0
     - _transform: {fileID: 7006781666498445183}
       _wheelCollider: {fileID: 2166219814684531945}
       _attachedRigidbody: {fileID: 6004135811825040621}
+      _correction: 0
   _traction: 1
   _maxSteeringAngle: 45
   _engineTorque: 300

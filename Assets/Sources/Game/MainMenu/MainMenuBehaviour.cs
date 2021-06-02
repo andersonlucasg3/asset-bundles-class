@@ -12,10 +12,13 @@ namespace AssetBundlesClass.Game.MainMenu
         [SerializeField] private Button _playButton = default;
         [SerializeField] private Slider _slider = default;
         [SerializeField] private TMP_Text _carNameLabel = default;
-        [SerializeField] private Image _carThumbnail = default;
 
+        [SerializeField] private Transform _renderRootTransform = default;
+        [SerializeField] private GameObject _currentRenderedCarGameObject = default;
+        [SerializeField] private Camera _renderCamera = default;
         [SerializeField] private AvailableCars _availableCars = default;
 
+        private readonly Rect _spriteRect = new Rect(0F, 0F, 300F, 300F);
         private int _selectedCarIndex = default;
 
         private void Awake()
@@ -23,9 +26,10 @@ namespace AssetBundlesClass.Game.MainMenu
             _playButton.onClick.AddListener(PlayAction);
 
             _slider.wholeNumbers = true;
-            _slider.maxValue = _availableCars.length; 
+            _slider.maxValue = _availableCars.length - 1; 
             _slider.onValueChanged.AddListener(SelectedCarAction);
             _slider.value = _selectedCarIndex;
+            SelectedCarAction(_selectedCarIndex);
         }
 
         private void OnDestroy()
@@ -46,14 +50,19 @@ namespace AssetBundlesClass.Game.MainMenu
             PlayableCar car = _availableCars[_selectedCarIndex];
             _carNameLabel.text = car.name;
             
-            const int squareSize = 300;
-            Vector2 pivot = new Vector2(.5F, .5F);
-            Rect rect = new Rect(0, 0, squareSize, squareSize);
-            Texture2D generatedTexture = RuntimePreviewGenerator.GenerateModelPreview(car.carPrefab.transform, squareSize, squareSize);
-            
-            if (_carThumbnail.sprite) Destroy(_carThumbnail.sprite);
-            
-            _carThumbnail.sprite = Sprite.Create(generatedTexture, rect, pivot);
+            if (_currentRenderedCarGameObject) DestroyImmediate(_currentRenderedCarGameObject);
+
+            GameObject carGameObject = Instantiate(car.carPrefab, _renderRootTransform);
+            carGameObject.transform.localPosition = Vector3.zero;
+            carGameObject.transform.localRotation = Quaternion.identity;
+            Rigidbody carRigidbody = carGameObject.GetComponent<Rigidbody>();
+            if (carRigidbody)
+            {
+                carRigidbody.useGravity = false;
+                carRigidbody.isKinematic = true;
+            }
+
+            _currentRenderedCarGameObject = carGameObject;
         }
 
         private void StartGameSceneAsync()
