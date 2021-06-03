@@ -21,11 +21,11 @@ namespace AssetBundlesClass.Editor.BuildSystem
                 options = BuildOptions.Development,
                 target = EditorUserBuildSettings.activeBuildTarget,
                 targetGroup = EditorUserBuildSettings.selectedBuildTargetGroup,
-                locationPathName = _buildPlatformPath,
+                locationPathName = Path.Combine(_buildPlatformPath, "game"),
                 assetBundleManifestPath = Path.Combine(AssetBundlesBuilder.assetBundlesOutputPath, _activeBuildTargetName),
             };
             BuildReport report = BuildPipeline.BuildPlayer(playerOptions);
-            Debug.Log(report.summary);
+            Debug.Log(report.summary.result);
         }
     }
 }
