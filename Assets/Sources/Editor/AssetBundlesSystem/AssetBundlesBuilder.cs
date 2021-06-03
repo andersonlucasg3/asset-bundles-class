@@ -7,12 +7,17 @@ namespace AssetBundlesClass.Editor.AssetBundlesSystem
     public static class AssetBundlesBuilder
     {
         public static readonly string assetBundlesOutputPath = Path.Combine(Directory.GetParent(Application.dataPath)?.ToString() ?? string.Empty, "AssetBundles");
+
+        [MenuItem("AssetBundlesClass/Asset Bundles/Clean (All)")]
+        public static void AssetBundlesCleanAll()
+        {
+            if (!Directory.Exists(assetBundlesOutputPath)) return;
+            Directory.Delete(assetBundlesOutputPath, true);
+            Debug.Log("Asset bundles path deleted!");
+        }
         
         [MenuItem("AssetBundlesClass/Asset Bundles/Build All Bundles (Active Platform Only)")]
-        public static void AssetBundlesBuildActivePlatformMenuAction()
-        {
-            BuildAssetBundles(EditorUserBuildSettings.activeBuildTarget);
-        }
+        public static void AssetBundlesBuildActivePlatformMenuAction() => BuildAssetBundles(EditorUserBuildSettings.activeBuildTarget);
 
         [MenuItem("AssetBundlesClass/Asset Bundles/Build All Bundles (All Supported Platforms)")]
         public static void AssetBundlesBuildSupportedPlatformsMenuAction()
