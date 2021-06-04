@@ -7,8 +7,6 @@ namespace Sources.Game.Controller
     {
         [SerializeField] private PlayableCar[] _cars = default;
 
-        public int length => _cars.Length;
-
-        public PlayableCar this[int index] => _cars[index];
+        public PlayableCar[] cars => _cars;
     }
 }

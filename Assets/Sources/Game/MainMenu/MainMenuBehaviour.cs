@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using AssetBundlesClass.Game.AssetBundlesSystem;
 using AssetBundlesClass.Shared.Pools;
 using Sources.Game.Controller;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -22,20 +22,16 @@ namespace AssetBundlesClass.Game.MainMenu
         [SerializeField] private PlayableCar _vanPlayableCar = default;
         [SerializeField] private Button _downloadDlc1Button = default;
         [SerializeField] private Button _downloadDlc2Button = default;
-
-        [SerializeField] private string _assetBundlesUrl = default;
         
+        [SerializeField] private AssetReference _dlc1AssetReference = default;
+        [SerializeField] private AssetReference _dlc2AssetReference = default;
+
         private PlayableCar[] _availableCars = default;
 
-        private AssetBundlesLoader _assetBundlesLoader;
-        
         private int _selectedCarIndex = default;
 
         private void Awake()
         {
-            AssetBundlesLoader.Initialize(_assetBundlesUrl);
-            _assetBundlesLoader = AssetBundlesLoader.shared;
-            
             _playButton.onClick.AddListener(PlayAction);
             _downloadDlc1Button.onClick.AddListener(DownloadDlc1Action);
             _downloadDlc2Button.onClick.AddListener(DownloadDlc2Action);
@@ -43,7 +39,7 @@ namespace AssetBundlesClass.Game.MainMenu
             _slider.wholeNumbers = true;
             _slider.onValueChanged.AddListener(SelectedCarAction);
 
-            StartCoroutine(InitializeAvailableCars());
+            InitializeAvailableCars();
         }
 
         private void OnDestroy()
@@ -52,58 +48,43 @@ namespace AssetBundlesClass.Game.MainMenu
             if (_downloadDlc1Button) _downloadDlc1Button.onClick.RemoveAllListeners();
             if (_downloadDlc2Button) _downloadDlc2Button.onClick.RemoveAllListeners();
             _slider.onValueChanged.RemoveAllListeners();
+            
+            _dlc1AssetReference.ReleaseAsset();
+            _dlc2AssetReference.ReleaseAsset();
         }
 
-        private IEnumerator InitializeAvailableCars()
+        private void InitializeAvailableCars()
         {
-            using ListPool<PlayableCar> availableCars = ListPool<PlayableCar>.Rent();
+            ListPool<PlayableCar> availableCars = ListPool<PlayableCar>.Rent();
             availableCars.Add(_vanPlayableCar);
-            yield return CheckDlc1(availableCars);
+            CheckDlc1(availableCars);
         }
 
-        private IEnumerator CheckDlc1(List<PlayableCar> availableCars)
+        private void CheckDlc1(ListPool<PlayableCar> availableCars)
         {
-            if (!_assetBundlesLoader.HasCache("dlc1"))
+            _dlc1AssetReference.LoadAssetAsync<PlayableCar>().Completed += value =>
             {
-                yield return CheckDlc2(availableCars);
-                yield break;
-            }
-            
-            Destroy(_downloadDlc1Button.gameObject);
-
-            IEnumerator CarLoaded(PlayableCar car)
-            {
-                availableCars.Add(car);
-                yield return CheckDlc2(availableCars);
-            }
-            yield return _assetBundlesLoader.Load<PlayableCar>("dlc1", "Mustang.asset", CarLoaded);
+                if (value.Result) availableCars.Add(value.Result);
+                CheckDlc2(availableCars);
+            };
         }
 
-        private IEnumerator CheckDlc2(List<PlayableCar> availableCars)
+        private void CheckDlc2(ListPool<PlayableCar> availableCars)
         {
-            if (!_assetBundlesLoader.HasCache("dlc2"))
+            _dlc2AssetReference.LoadAssetAsync<AvailableCars>().Completed += value =>
             {
-                CarsInitializationCompleted(availableCars.ToArray());
-                yield break;
-            }
-            
-            Destroy(_downloadDlc2Button.gameObject);
-
-            IEnumerator CarsLoaded(PlayableCar[] cars)
-            {
-                availableCars.AddRange(cars);
-                yield return new WaitForEndOfFrame();
-                CarsInitializationCompleted(availableCars.ToArray());
-            }
-            yield return _assetBundlesLoader.LoadMany<PlayableCar>("dlc2", new[] {"Cybertruck.asset", "Dodge Challenger.asset"}, CarsLoaded);
+                if (value.Result) availableCars.AddRange(value.Result.cars);
+                CarsInitializationCompleted(availableCars);
+            };
         }
 
-        private void CarsInitializationCompleted(PlayableCar[] cars)
+        private void CarsInitializationCompleted(ListPool<PlayableCar> cars)
         {
-            _availableCars = cars;
+            _availableCars = cars.ToArray();
             _slider.maxValue = _availableCars.Length - 1;
             _slider.value = _selectedCarIndex;
             SelectedCarAction(_selectedCarIndex);
+            cars.Dispose();
         }
 
         private void PlayAction()
@@ -152,15 +133,14 @@ namespace AssetBundlesClass.Game.MainMenu
             SceneManager.UnloadSceneAsync(gameObject.scene);
         }
 
-        private void DownloadDlc1Action() => StartCoroutine(_assetBundlesLoader.LoadAssetBundle("dlc1", OnCompleteBuyingAssetBundle));
-
-        private void DownloadDlc2Action() => StartCoroutine(_assetBundlesLoader.LoadAssetBundle("dlc2", OnCompleteBuyingAssetBundle));
-
-        private static IEnumerator OnCompleteBuyingAssetBundle(bool success)
+        private void DownloadDlc1Action()
         {
-            if (!success) throw new ArgumentException("Should be true", nameof(success));
-            SceneManager.LoadScene("MainScene", LoadSceneMode.Single);
-            yield break;
+            _dlc1AssetReference.LoadAssetAsync<PlayableCar>();
+        }
+
+        private void DownloadDlc2Action()
+        {
+            
         }
     }
 }

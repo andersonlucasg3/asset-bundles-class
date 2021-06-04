@@ -1152,7 +1152,14 @@ MonoBehaviour:
   _vanPlayableCar: {fileID: 11400000, guid: b2afd8975688945fda18fa2d00183822, type: 2}
   _downloadDlc1Button: {fileID: 486202087}
   _downloadDlc2Button: {fileID: 537615558}
-  _assetBundlesUrl: /Volumes/External/Projects/Personal/AssetBundlesClass/AssetBundles
+  _dlc1AssetReference:
+    m_AssetGUID: 9e181b288c9064805b8bfae840239113
+    m_SubObjectName: 
+    m_SubObjectType: 
+  _dlc2AssetReference:
+    m_AssetGUID: f0e056151b8e04bad8c47b3fd961cc78
+    m_SubObjectName: 
+    m_SubObjectType: 
 --- !u!1 &1237450462
 GameObject:
   m_ObjectHideFlags: 0
