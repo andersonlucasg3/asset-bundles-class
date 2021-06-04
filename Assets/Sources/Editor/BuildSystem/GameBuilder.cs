@@ -1,5 +1,6 @@
 using System.IO;
 using AssetBundlesClass.Editor.AssetBundlesSystem;
+using AssetBundlesClass.Extensions;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
@@ -18,11 +19,16 @@ namespace AssetBundlesClass.Editor.BuildSystem
             if (!Directory.Exists(_buildPlatformPath)) Directory.CreateDirectory(_buildPlatformPath);
             BuildPlayerOptions playerOptions = new BuildPlayerOptions
             {
-                options = BuildOptions.Development,
+                scenes = EditorBuildSettings.scenes.FilterMap((EditorBuildSettingsScene each, out string result) =>
+                {
+                    result = each.enabled ? each.path : null;
+                    return each.enabled;
+                }),
+                options = BuildOptions.Development | BuildOptions.CompressWithLz4,
                 target = EditorUserBuildSettings.activeBuildTarget,
                 targetGroup = EditorUserBuildSettings.selectedBuildTargetGroup,
                 locationPathName = Path.Combine(_buildPlatformPath, "game"),
-                assetBundleManifestPath = Path.Combine(AssetBundlesBuilder.assetBundlesOutputPath, _activeBuildTargetName),
+                assetBundleManifestPath = Path.Combine(AssetBundlesBuilder.GetPlatformSpecificOutputPath(), $"{_activeBuildTargetName}.manifest"),
             };
             BuildReport report = BuildPipeline.BuildPlayer(playerOptions);
             Debug.Log(report.summary.result);

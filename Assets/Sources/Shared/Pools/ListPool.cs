@@ -10,6 +10,20 @@ namespace AssetBundlesClass.Shared.Pools
 
         public static ListPool<TItem> Rent() => _bag.TryTake(out ListPool<TItem> list) ? list : new ListPool<TItem>();
 
+        public static ListPool<TItem> Rent(TItem[] buffer)
+        {
+            if (_bag.TryTake(out ListPool<TItem> list))
+            {
+                list.AddRange(buffer);
+                return list;
+            }
+            return new ListPool<TItem>(buffer);
+        }
+
+        private ListPool() { }
+
+        private ListPool(IEnumerable<TItem> items) : base(items) { }
+
         public void Dispose()
         {
             Clear();

@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace AssetBundlesClass.Editor.EditorDefines
 {
+    [EditorWindowTitle(title = "Scripting Defines")]
     public class EditorDefinesWindow : EditorWindow
     {
         private ScriptingDefinesScriptableObject _scriptingDefinesScriptableObject = default;
@@ -59,8 +60,15 @@ namespace AssetBundlesClass.Editor.EditorDefines
             
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
             {
+                EditorGUI.indentLevel = 1;
                 EditorGUILayout.BeginVertical();
                 {
+                    EditorGUILayout.Separator();
+                    
+                    EditorGUILayout.LabelField("List of define symbols", EditorStyles.boldLabel);
+                    
+                    EditorGUILayout.Separator();
+                    
                     for (int index = 0; index < _scriptingDefinesScriptableObject.availableScriptingDefines.Length; index++)
                     {
                         ScriptDefineInfo current = _scriptingDefinesScriptableObject.availableScriptingDefines[index];
