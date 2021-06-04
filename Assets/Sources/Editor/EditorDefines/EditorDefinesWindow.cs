@@ -96,8 +96,8 @@ namespace AssetBundlesClass.Editor.EditorDefines
                         EditorGUILayout.Space();
                         if (GUILayout.Button("Add new") && !string.IsNullOrEmpty(_newScriptDefineName))
                         {
-                            _newScriptDefineName = "";
                             _defineToAdd = new ScriptDefineInfo(_newScriptDefineName);
+                            _newScriptDefineName = "";
                         }
                     }
                     EditorGUILayout.EndHorizontal();

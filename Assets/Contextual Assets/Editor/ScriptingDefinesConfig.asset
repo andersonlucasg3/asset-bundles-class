@@ -15,3 +15,5 @@ MonoBehaviour:
   availableScriptingDefines:
   - <name>k__BackingField: ENABLE_EDITOR_BUNDLES
     enabled: 0
+  - <name>k__BackingField: ENABLE_DEBUG_LOGS
+    enabled: 0

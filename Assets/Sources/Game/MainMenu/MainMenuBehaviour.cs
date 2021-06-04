@@ -6,6 +6,7 @@ using Sources.Game.Controller;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -64,7 +65,16 @@ namespace AssetBundlesClass.Game.MainMenu
         {
             _dlc1AssetReference.LoadAssetAsync<PlayableCar>().Completed += value =>
             {
-                if (value.Result) availableCars.Add(value.Result);
+                if (value.OperationException != null)
+                {
+#if ENABLE_DEBUG_LOGS
+                    Debug.LogError(value.OperationException);
+#endif
+                    CheckDlc2(availableCars);
+                    return;
+                }
+                if (value.Status == AsyncOperationStatus.Succeeded && value.Result) 
+                    availableCars.Add(value.Result);
                 CheckDlc2(availableCars);
             };
         }
@@ -73,7 +83,16 @@ namespace AssetBundlesClass.Game.MainMenu
         {
             _dlc2AssetReference.LoadAssetAsync<AvailableCars>().Completed += value =>
             {
-                if (value.Result) availableCars.AddRange(value.Result.cars);
+                if (value.OperationException != null)
+                {
+#if ENABLE_DEBUG_LOGS
+                    Debug.LogError(value.OperationException);
+#endif
+                    CarsInitializationCompleted(availableCars);
+                    return;
+                }
+                if (value.Status == AsyncOperationStatus.Succeeded && value.Result)
+                    availableCars.AddRange(value.Result.cars);
                 CarsInitializationCompleted(availableCars);
             };
         }
