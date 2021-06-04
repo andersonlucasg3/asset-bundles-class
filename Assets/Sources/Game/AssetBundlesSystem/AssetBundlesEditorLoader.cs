@@ -1,4 +1,4 @@
-#if !ENABLE_EDITOR_BUNDLES
+#if !ENABLE_EDITOR_BUNDLES && UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
