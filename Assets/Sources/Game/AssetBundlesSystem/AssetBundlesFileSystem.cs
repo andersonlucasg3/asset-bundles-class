@@ -5,30 +5,32 @@ using UnityEngine;
 
 namespace AssetBundlesClass.Game.AssetBundlesSystem
 {
-    public static class AssetBundlesFileSystem
+    public abstract partial class AssetBundlesLoader
     {
-        private static readonly string assetBundlesPlatformRootPath = default;
-        
-        public static readonly string assetBundlesRootPath = default;
-
-        static AssetBundlesFileSystem()
+        public static class AssetBundlesFileSystem
         {
+            private static readonly string assetBundlesPlatformRootPath = default;
+
+            public static readonly string assetBundlesRootPath = default;
+
+            static AssetBundlesFileSystem()
+            {
 #if UNITY_EDITOR
-            string targetName = GetTargetName();       
+                string targetName = GetTargetName();
 #else
             string targetName = GetTargetName();
 #endif
-            assetBundlesRootPath = Path.Combine(Application.persistentDataPath, "AssetBundles");
-            assetBundlesPlatformRootPath = Path.Combine(assetBundlesRootPath, targetName);
-            if (!Directory.Exists(assetBundlesPlatformRootPath)) Directory.CreateDirectory(assetBundlesPlatformRootPath);
-        }
+                assetBundlesRootPath = Path.Combine(Application.persistentDataPath, "AssetBundles");
+                assetBundlesPlatformRootPath = Path.Combine(assetBundlesRootPath, targetName);
+                if (!Directory.Exists(assetBundlesPlatformRootPath)) Directory.CreateDirectory(assetBundlesPlatformRootPath);
+            }
 
-        public static bool AssetBundleExists(string assetBundleName) => File.Exists(Path.Combine(assetBundlesPlatformRootPath, assetBundleName));
+            public static bool AssetBundleExists(string assetBundleName) => File.Exists(Path.Combine(assetBundlesPlatformRootPath, assetBundleName));
 
-        public static string GetFullPath(string relativeFilePath) => Path.Combine(assetBundlesPlatformRootPath, relativeFilePath);
+            public static string GetFullPath(string relativeFilePath) => Path.Combine(assetBundlesPlatformRootPath, relativeFilePath);
 
 #if UNITY_EDITOR
-        public static string GetTargetName() => $"{EditorUserBuildSettings.activeBuildTarget}";
+            public static string GetTargetName() => $"{EditorUserBuildSettings.activeBuildTarget}";
 #else
         public static string GetTargetName() => Application.platform switch
         {
@@ -39,6 +41,7 @@ namespace AssetBundlesClass.Game.AssetBundlesSystem
             _ => "Unknown"
         };
 #endif
+        }
     }
 }
 #endif

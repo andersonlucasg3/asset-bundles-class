@@ -20,8 +20,9 @@ namespace AssetBundlesClass.Editor.AssetBundlesSystem
         [MenuItem("AssetBundlesClass/Asset Bundles/Clean cached bundles")]
         public static void AssetBundlesCleanCachedBundles()
         {
-            if (!Directory.Exists(AssetBundlesFileSystem.assetBundlesRootPath)) return;
-            Directory.Delete(AssetBundlesFileSystem.assetBundlesRootPath, true);
+            string assetBundlesRootPath = Path.Combine(Application.persistentDataPath, "AssetBundles");
+            if (!Directory.Exists(assetBundlesRootPath)) return;
+            Directory.Delete(assetBundlesRootPath, true);
         }
         
         [MenuItem("AssetBundlesClass/Asset Bundles/Build Bundles (Active Platform Only)")]

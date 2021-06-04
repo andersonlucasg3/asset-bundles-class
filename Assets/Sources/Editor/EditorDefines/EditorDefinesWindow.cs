@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace AssetBundlesClass.Editor.EditorDefines
 {
-    [EditorWindowTitle(title = "Scripting Defines")]
     public class EditorDefinesWindow : EditorWindow
     {
         private ScriptingDefinesScriptableObject _scriptingDefinesScriptableObject = default;
@@ -18,7 +17,11 @@ namespace AssetBundlesClass.Editor.EditorDefines
         [MenuItem("Window/Asset Bundles Class/Open Defines Window")]
         private static void OpenWindow() => GetWindow<EditorDefinesWindow>().Show();
 
-        private void Awake() => _scriptingDefinesScriptableObject = ScriptingDefinesScriptableObject.CreateOrLoadAsset();
+        private void Awake()
+        {
+            _scriptingDefinesScriptableObject = ScriptingDefinesScriptableObject.CreateOrLoadAsset();
+            titleContent = new GUIContent("Scripting Defines");
+        }
 
         private void OnFocus()
         {

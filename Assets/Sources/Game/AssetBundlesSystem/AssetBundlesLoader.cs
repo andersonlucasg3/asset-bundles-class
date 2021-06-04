@@ -5,20 +5,20 @@ using Object = UnityEngine.Object;
 
 namespace AssetBundlesClass.Game.AssetBundlesSystem
 {
-    public abstract class AssetBundlesLoader
+    public abstract partial class AssetBundlesLoader
     {
         public static AssetBundlesLoader shared { get; private set; } = default;
 
-        protected readonly string _baseUrl = default;
+        private readonly string _baseUrl = default;
         
         public static void Initialize(string assetBundlesBaseUrl)
         {
             if (shared != null) return;
             
 #if UNITY_EDITOR && !ENABLE_EDITOR_BUNDLES
-            shared ??= new __AssetBundlesEditorLoader();
+            shared ??= new AssetBundlesEditorLoader(assetBundlesBaseUrl);
 #else
-            shared ??= new __AssetBundlesRuntimeLoader(assetBundlesBaseUrl);
+            shared ??= new AssetBundlesRuntimeLoader(assetBundlesBaseUrl);
 #endif
         }
 
