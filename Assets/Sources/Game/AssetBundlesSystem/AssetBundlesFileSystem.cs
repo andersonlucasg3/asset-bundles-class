@@ -18,7 +18,7 @@ namespace AssetBundlesClass.Game.AssetBundlesSystem
 #if UNITY_EDITOR
                 string targetName = GetTargetName();
 #else
-            string targetName = GetTargetName();
+                string targetName = GetTargetName();
 #endif
                 assetBundlesRootPath = Path.Combine(Application.persistentDataPath, "AssetBundles");
                 assetBundlesPlatformRootPath = Path.Combine(assetBundlesRootPath, targetName);
@@ -32,14 +32,14 @@ namespace AssetBundlesClass.Game.AssetBundlesSystem
 #if UNITY_EDITOR
             public static string GetTargetName() => $"{EditorUserBuildSettings.activeBuildTarget}";
 #else
-        public static string GetTargetName() => Application.platform switch
-        {
-            RuntimePlatform.OSXPlayer => "StandaloneOSX",
-            RuntimePlatform.WindowsPlayer => "StandaloneWindows64",
-            RuntimePlatform.IPhonePlayer => "iOS",
-            RuntimePlatform.Android => "Android",
-            _ => "Unknown"
-        };
+            public static string GetTargetName() => Application.platform switch
+            {
+                RuntimePlatform.OSXPlayer => "StandaloneOSX",
+                RuntimePlatform.WindowsPlayer => "StandaloneWindows64",
+                RuntimePlatform.IPhonePlayer => "iOS",
+                RuntimePlatform.Android => "Android",
+                _ => "Unknown"
+            };
 #endif
         }
     }
