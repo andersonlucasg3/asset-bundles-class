@@ -15,8 +15,6 @@ namespace AssetBundlesClass.Game.AssetBundlesSystem
         {
             private readonly Dictionary<string, string[]> _assetBundleFilePathsMap = new Dictionary<string, string[]>();
             
-            protected internal AssetBundlesEditorLoader(string baseUrl) : base(baseUrl) { }
-            
             public override IEnumerator LoadAssetBundle(string assetBundleName, Func<bool, IEnumerator> onComplete)
             {
                 if (!_assetBundleFilePathsMap.ContainsKey(assetBundleName)) 

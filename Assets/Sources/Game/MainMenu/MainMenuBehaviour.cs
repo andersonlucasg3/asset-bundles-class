@@ -33,7 +33,11 @@ namespace AssetBundlesClass.Game.MainMenu
 
         private void Awake()
         {
+#if UNITY_EDITOR && !ENABLE_EDITOR_BUNDLES
+            AssetBundlesLoader.Initialize();
+#else
             AssetBundlesLoader.Initialize(_assetBundlesUrl);
+#endif
             _assetBundlesLoader = AssetBundlesLoader.shared;
             
             _playButton.onClick.AddListener(PlayAction);

@@ -9,20 +9,28 @@ namespace AssetBundlesClass.Game.AssetBundlesSystem
     {
         public static AssetBundlesLoader shared { get; private set; } = default;
 
+#if !UNITY_EDITOR || ENABLE_EDITOR_BUNDLES
         private readonly string _baseUrl = default;
-        
+#endif
+
+#if UNITY_EDITOR && !ENABLE_EDITOR_BUNDLES
+        public static void Initialize()
+#else
         public static void Initialize(string assetBundlesBaseUrl)
+#endif
         {
             if (shared != null) return;
             
 #if UNITY_EDITOR && !ENABLE_EDITOR_BUNDLES
-            shared ??= new AssetBundlesEditorLoader(assetBundlesBaseUrl);
+            shared ??= new AssetBundlesEditorLoader();
 #else
             shared ??= new AssetBundlesRuntimeLoader(assetBundlesBaseUrl);
 #endif
         }
 
+#if !UNITY_EDITOR || ENABLE_EDITOR_BUNDLES
         protected AssetBundlesLoader(string baseUrl) => _baseUrl = baseUrl;
+#endif
 
         [UsedImplicitly]
         public abstract IEnumerator LoadAssetBundle(string assetBundleName, Func<bool, IEnumerator> onComplete);

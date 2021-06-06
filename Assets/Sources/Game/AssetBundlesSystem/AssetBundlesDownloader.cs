@@ -31,7 +31,7 @@ namespace AssetBundlesClass.Game.AssetBundlesSystem
             private IEnumerator DownloadFromUrl(string url, DownloadCallback onComplete)
             {
 #if ENABLE_DEBUG_LOGS
-            Debug.Log($"Downloading file at url: {url}\nSaving at path: {_cacheFilePath}");
+                Debug.Log($"Downloading file at url: {url}\nSaving at path: {_cacheFilePath}");
 #endif
 
                 using UnityWebRequest request = new UnityWebRequest(url) {downloadHandler = new AssetBundlesDownloadHandler(_cacheFilePath)};
@@ -41,8 +41,8 @@ namespace AssetBundlesClass.Game.AssetBundlesSystem
                 bool success = request.result == UnityWebRequest.Result.Success;
 
 #if ENABLE_DEBUG_LOGS
-            Debug.Log($"Download request result: {request.result}");
-            if (!success) Debug.LogError($"Download request error: {request.error}");
+                Debug.Log($"Download request result: {request.result}");
+                if (!success) Debug.LogError($"Download request error: {request.error}");
 #endif
 
                 yield return onComplete.Invoke(success, _cacheFilePath);
