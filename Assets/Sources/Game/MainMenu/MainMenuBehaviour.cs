@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using AssetBundlesClass.Game.AssetBundlesSystem;
 using AssetBundlesClass.Shared.Pools;
+using JetBrains.Annotations;
 using Sources.Game.Controller;
 using TMPro;
 using UnityEngine;
@@ -23,7 +24,7 @@ namespace AssetBundlesClass.Game.MainMenu
         [SerializeField] private Button _downloadDlc1Button = default;
         [SerializeField] private Button _downloadDlc2Button = default;
 
-        [SerializeField] private string _assetBundlesUrl = default;
+        [UsedImplicitly, SerializeField] private string _assetBundlesUrl = default;
         
         private PlayableCar[] _availableCars = default;
 
