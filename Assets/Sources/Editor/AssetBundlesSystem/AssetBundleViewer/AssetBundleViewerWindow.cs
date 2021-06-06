@@ -119,11 +119,11 @@ namespace AssetBundlesClass.Editor.AssetBundlesSystem.AssetBundleViewer
             string[] unusedBundles = AssetDatabase.GetUnusedAssetBundleNames();
             _bundleInfos = new BundleInfo[existingBundles.Length];
 
-            Parallel.For(0, existingBundles.Length, index =>
+            for (int index = 0; index < existingBundles.Length; index++)
             {
                 string current = existingBundles[index];
-                _bundleInfos[index] = new BundleInfo(current, unusedBundles.Contains(current));
-            });
+                _bundleInfos[index] = new BundleInfo(current, unusedBundles.Contains(current));                
+            }
 
             _selectedIndex = 0;
             _lastSelectedIndex = -1;
